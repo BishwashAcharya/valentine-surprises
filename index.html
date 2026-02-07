@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Week For You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- General Styling --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Nunito', sans-serif;
+            color: #5a5a5a;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1, h2 {
+            font-family: 'Sacramento', cursive;
+            color: #d63384;
+        }
+
+        /* --- Floating Hearts Background Animation --- */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -100px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 182, 193, 0.6);
+            transform: rotate(45deg);
+            animation: floatUp 10s linear infinite;
+        }
+
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before { top: -10px; left: 0; }
+        .heart::after { top: 0; left: -10px; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(45deg); opacity: 0; }
+        }
+
+        /* --- Main Container --- */
+        .container {
+            max-width: 800px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 { font-size: 3.5rem; margin-bottom: 10px; }
+        .subtitle { font-size: 1.2rem; color: #888; margin-bottom: 30px; }
+
+        /* --- Navigation Tabs --- */
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            background: #ffe4e1;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            color: #d63384;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .tab-btn:hover { transform: scale(1.05); background: #ffccd5; }
+        .tab-btn.active { background: #d63384; color: white; box-shadow: 0 4px 15px rgba(214, 51, 132, 0.4); }
+
+        /* --- Content Sections --- */
+        .content-section {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .content-section.active { display: block; }
+
+        .card {
+            background: #fff0f3;
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px dashed #ffb3c1;
+        }
+
+        .card img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            margin: 20px 0;
+            object-fit: cover;
+        }
+
+        .message { font-size: 1.1rem; line-height: 1.6; }
+        .date-badge {
+            background: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #d63384;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="hearts-bg" id="heartsContainer"></div>
+
+    <div class="container">
+        <h1>Valentine's Week</h1>
+        <p class="subtitle">A special journey just for you ❤️</p>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="openDay('rose')">Rose</button>
+            <button class="tab-btn" onclick="openDay('propose')">Propose</button>
+            <button class="tab-btn" onclick="openDay('chocolate')">Chocolate</button>
+            <button class="tab-btn" onclick="openDay('teddy')">Teddy</button>
+            <button class="tab-btn" onclick="openDay('promise')">Promise</button>
+            <button class="tab-btn" onclick="openDay('hug')">Hug</button>
+            <button class="tab-btn" onclick="openDay('kiss')">Kiss</button>
+            <button class="tab-btn" onclick="openDay('valentine')">Valentine's</button>
+        </div>
+
+        <div id="rose" class="content-section active">
+            <div class="card">
+                <span class="date-badge">Feb 7th</span>
+                <h2>Happy Rose Day 🌹</h2>
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Rose">
+                <p class="message">
+                    Just like this rose, you make my life beautiful and fragrant with your love. <br>
+                    I love you more than words can say!
+                </p>
+            </div>
+        </div>
+
+        <div id="propose" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 8th</span>
+                <h2>Propose Day 💍</h2>
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=600&q=80" alt="Propose">
+                <p class="message">
+                    I don't need a special day to say this, but today makes it official:<br>
+                    Will you be mine forever?
+                </p>
+            </div>
+        </div>
+
+        <div id="chocolate" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 9th</span>
+                <h2>Chocolate Day 🍫</h2>
+                <img src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=600&q=80" alt="Chocolate">
+                <p class="message">
+                    Life is like a chocolate box, and you are my favorite flavor.<br>
+                    Here is some virtual sweetness for my sweetheart!
+                </p>
+            </div>
+        </div>
+
+        <div id="teddy" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 10th</span>
+                <h2>Teddy Day 🧸</h2>
+                <img src="https://images.unsplash.com/photo-1559454403-b8fb87521bc7?auto=format&fit=crop&w=600&q=80" alt="Teddy">
+                <p class="message">
+                    Sending you this bear to cuddle with when I'm not there.<br>
+                    Sending you warm bear hugs!
+                </p>
+            </div>
+        </div>
+
+        <div id="promise" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 11th</span>
+                <h2>Promise Day 🤝</h2>
+                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80" alt="Promise">
+                <p class="message">
+                    I promise to laugh with you, cry with you, and stand by your side.<br>
+                    Through all the ups and downs, I promise to be yours.
+                </p>
+            </div>
+        </div>
+
+        <div id="hug" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 12th</span>
+                <h2>Hug Day 🤗</h2>
+                <img src="https://images.unsplash.com/photo-1517639493569-5666a79d3796?auto=format&fit=crop&w=600&q=80" alt="Hug">
+                <p class="message">
+                    Sometimes words aren't enough, and a hug says it all.<br>
+                    Sending you the tightest, warmest hug today!
+                </p>
+            </div>
+        </div>
+
+        <div id="kiss" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 13th</span>
+                <h2>Kiss Day 💋</h2>
+                <img src="https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?auto=format&fit=crop&w=600&q=80" alt="Kiss">
+                <p class="message">
+                    A kiss is a secret told to the mouth instead of the ear.<br>
+                    Here's a million virtual kisses for you.
+                </p>
+            </div>
+        </div>
+
+        <div id="valentine" class="content-section">
+            <div class="card" style="background: #fff5f8; border: 2px solid #d63384;">
+                <span class="date-badge">Feb 14th</span>
+                <h2>Happy Valentine's Day! ❤️</h2>
+                <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?auto=format&fit=crop&w=600&q=80" alt="Valentine">
+                <p class="message">
+                    <b>To my favorite person,</b><br><br>
+                    Every day with you feels like Valentine's Day. Thank you for being my partner, my best friend, and my love.<br>
+                    <br>
+                    I love you!
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Tab Switching Logic ---
+        function openDay(dayName) {
+            // Hide all content sections
+            const contents = document.getElementsByClassName('content-section');
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+
+            // Remove active class from all buttons
+            const buttons = document.getElementsByClassName('tab-btn');
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+
+            // Show the specific day content
+            document.getElementById(dayName).classList.add('active');
+            
+            // Add active class to the clicked button
+            // (This simple loop matches the button text index to the logic, simplified for ease)
+            event.currentTarget.classList.add('active');
+        }
+
+        // --- Generate Floating Hearts ---
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            const heartCount = 20; 
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                // Randomize position and animation speed
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 3 + 7 + 's'; 
+                heart.style.opacity = Math.random();
+                heart.style.animationDelay = Math.random() * 5 + 's';
+
+                container.appendChild(heart);
+            }
+        }
+
+        // Initialize hearts on load
+        window.onload = createHearts;
+    </script>
+</body>
+</html>
