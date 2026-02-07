@@ -171,7 +171,7 @@
             <div class="card">
                 <span class="date-badge">Feb 7th</span>
                 <h2>Happy Rose Day 🌹</h2>
-                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Rose">
+                <img src="https://imgur.com/a/q93073b" alt="Rose">
                 <p class="message">
                     Just like this rose, you make my life beautiful and fragrant with your love. <br>
                     I love you more than words can say!
@@ -267,50 +267,132 @@
 
     </div>
 
-    <script>
-        // --- Tab Switching Logic ---
-        function openDay(dayName) {
-            // Hide all content sections
-            const contents = document.getElementsByClassName('content-section');
-            for (let i = 0; i < contents.length; i++) {
-                contents[i].classList.remove('active');
-            }
+   <script>
+    // ==========================================
+    //       ⬇️ EDIT YOUR MESSAGES HERE ⬇️
+    // ==========================================
+    
+    const valentineConfig = {
+        'rose': {
+            date: 7, 
+            lockedMsg: "Hold on! I haven't bought the flowers yet! 🌹 Wait for Feb 7th."
+        },
+        'propose': {
+            date: 8, 
+            lockedMsg: "Shhh! 🤫 I have a big question to ask, but not yet! Wait for Feb 8th."
+        },
+        'chocolate': {
+            date: 9, 
+            lockedMsg: "No snacking early! 🍫 The sweetness arrives on Feb 9th."
+        },
+        'teddy': {
+            date: 10, 
+            lockedMsg: "The cuddles are loading... 🧸 Come back on Feb 10th!"
+        },
+        'promise': {
+            date: 11, 
+            lockedMsg: "I have a promise to make, but you have to wait! 🤞 Feb 11th."
+        },
+        'hug': {
+            date: 12, 
+            lockedMsg: "My arms are saving up energy for a BIG hug on Feb 12th! 🤗"
+        },
+        'kiss': {
+            date: 13, 
+            lockedMsg: "Save those lips! 💋 Kisses unlock on Feb 13th."
+        },
+        'valentine': {
+            date: 14, 
+            lockedMsg: "The grand finale isn't ready yet! ❤️ See you on Valentine's Day."
+        }
+    };
 
-            // Remove active class from all buttons
-            const buttons = document.getElementsByClassName('tab-btn');
-            for (let i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('active');
-            }
+    // ==========================================
+    //    ⛔️ DON'T TOUCH CODE BELOW THIS LINE ⛔️
+    // ==========================================
 
-            // Show the specific day content
-            document.getElementById(dayName).classList.add('active');
+    function openDay(dayName) {
+        const today = new Date();
+        const currentMonth = today.getMonth(); // 0 = Jan, 1 = Feb
+        const currentDay = today.getDate();
+        
+        // specific configuration for the clicked day
+        const config = valentineConfig[dayName];
+
+        // LOGIC: 
+        // If it is NOT February yet (Month is 0), OR
+        // It IS February, but today's date is less than the unlock date...
+        if (currentMonth < 1 || (currentMonth === 1 && currentDay < config.date)) {
             
-            // Add active class to the clicked button
-            // (This simple loop matches the button text index to the logic, simplified for ease)
-            event.currentTarget.classList.add('active');
+            // Show the custom locked message
+            alert(config.lockedMsg);
+            return; // Stop here, don't open the tab
         }
 
-        // --- Generate Floating Hearts ---
-        function createHearts() {
-            const container = document.getElementById('heartsContainer');
-            const heartCount = 20; 
+        // --- If logic passes, Unlock the Content ---
+        
+        // Hide all content sections
+        const contents = document.getElementsByClassName('content-section');
+        for (let i = 0; i < contents.length; i++) {
+            contents[i].classList.remove('active');
+        }
 
-            for (let i = 0; i < heartCount; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                
-                // Randomize position and animation speed
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = Math.random() * 3 + 7 + 's'; 
-                heart.style.opacity = Math.random();
-                heart.style.animationDelay = Math.random() * 5 + 's';
+        // Remove active class from all buttons
+        const buttons = document.getElementsByClassName('tab-btn');
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('active');
+        }
 
-                container.appendChild(heart);
+        // Show the specific day content
+        document.getElementById(dayName).classList.add('active');
+        
+        // Highlight the button
+        const clickedBtn = document.querySelector(`button[onclick="openDay('${dayName}')"]`);
+        if(clickedBtn) clickedBtn.classList.add('active');
+    }
+
+    // --- Visual Logic: Gray out future buttons ---
+    function updateButtonStyles() {
+        const today = new Date();
+        const currentMonth = today.getMonth();
+        const currentDay = today.getDate();
+        
+        for (const [dayName, config] of Object.entries(valentineConfig)) {
+            const btn = document.querySelector(`button[onclick="openDay('${dayName}')"]`);
+            if (btn) {
+                // If locked
+                if (currentMonth < 1 || (currentMonth === 1 && currentDay < config.date)) {
+                    btn.style.opacity = "0.6";
+                    btn.innerText = "🔒 " + btn.innerText; // Adds lock icon
+                }
             }
         }
+    }
 
-        // Initialize hearts on load
-        window.onload = createHearts;
-    </script>
+    // --- Generate Floating Hearts ---
+    function createHearts() {
+        const container = document.getElementById('heartsContainer');
+        // Check if container exists to avoid errors
+        if (!container) return;
+
+        const heartCount = 20; 
+        for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 7 + 's'; 
+            heart.style.opacity = Math.random();
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(heart);
+        }
+    }
+
+    // Initialize on load
+    window.onload = function() {
+        createHearts();
+        updateButtonStyles();
+    };
+</script>
 </body>
+
 </html>
