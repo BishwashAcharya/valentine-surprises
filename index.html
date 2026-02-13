@@ -106,6 +106,40 @@
         .tab-btn:hover { transform: scale(1.05); background: #ffccd5; }
         .tab-btn.active { background: #d63384; color: white; box-shadow: 0 4px 15px rgba(214, 51, 132, 0.4); }
 
+        /* --- Proposal Buttons --- */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            position: relative; /* Important for the No button to move around */
+            height: 100px; /* Reserve space */
+        }
+
+        .proposal-btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        #yesBtn {
+            background-color: #d63384;
+            color: white;
+            box-shadow: 0 5px 15px rgba(214, 51, 132, 0.4);
+            z-index: 10;
+        }
+
+        #noBtn {
+            background-color: #e2e2e2;
+            color: #333;
+            position: absolute; /* Allows it to move freely */
+        }
+
         /* --- Content Sections --- */
         .content-section {
             display: none; /* Hidden by default */
@@ -252,17 +286,22 @@
 
         <div id="valentine" class="content-section">
             <div class="card" style="background: #fff5f8; border: 2px solid #d63384;">
-                <span class="date-badge">Feb 14th</span>
-                <h2>Happy Valentine's Day! ❤️</h2>
-                <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?auto=format&fit=crop&w=600&q=80" alt="Valentine">
-                <p class="message">
-                    <b>To my favorite person,</b><br><br>
-                    Every day with you feels like Valentine's Day. Thank you for being my partner, my best friend, and my love.<br>
-                    <br>
-                    I love you!
-                </p>
+            <span class="date-badge">Feb 14th</span>
+            <h2>Will You Be My Valentine? 🌹</h2>
+        
+            <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z5Z3Z5b3Z5b3Z5b3Z5b3Z5b3Z5b3Z5b3Z5/l0HlCqV9bV9bV9bV9/giphy.gif" alt="Please be mine">
+        
+            <p class="message">
+            <b>To my favorite person,</b><br>
+            I can't imagine this day without you. Will you make me the happiest person and be my Valentine?
+            </p>
+
+            <div class="btn-container">
+                <button id="yesBtn" class="proposal-btn" onclick="acceptProposal()">YES! ❤️</button>
+                <button id="noBtn" class="proposal-btn" onmouseover="dodgeNo()" onclick="dodgeNo()">No 💔</button>
             </div>
         </div>
+    </div>
 
     </div>
 
@@ -386,6 +425,33 @@
         }
     }
 
+       // --- Proposal Logic ---
+        function dodgeNo() {
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+
+        // 1. Make the Yes button BIGGER
+        // Get current font size and increase it
+        let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+        let currentPadding = parseFloat(window.getComputedStyle(yesBtn).paddingTop);
+        
+        yesBtn.style.fontSize = (currentSize * 1.2) + "px";
+        yesBtn.style.padding = (currentPadding * 1.1) + "px " + (currentPadding * 1.5) + "px";
+
+        // 2. Move the No button randomly
+        // We limit the movement to within the card/window area so it doesn't disappear completely
+        const maxMove = 200; // pixels
+        const randomX = Math.floor(Math.random() * maxMove) - (maxMove/2);
+        const randomY = Math.floor(Math.random() * maxMove) - (maxMove/2);
+
+        noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    function acceptProposal() {
+        // Redirect to the new page
+        window.location.href = "yes.html";
+    }
+
     // Initialize on load
     window.onload = function() {
         createHearts();
@@ -395,6 +461,7 @@
 </body>
 
 </html>
+
 
 
 
