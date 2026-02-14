@@ -53,29 +53,47 @@
             margin-bottom: 20px;
         }
 
-        /* The Celebration Button */
-        .btn-celebrate {
-            background-color: #d63384;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-            box-shadow: 0 4px 10px rgba(214, 51, 132, 0.3);
-        }
+        .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px; /* Space between buttons */
+        align-items: center;
+        margin-top: 20px;
+    }
 
-        .btn-celebrate:hover {
-            background-color: #b02a6b;
-            transform: scale(1.05);
-        }
+    .btn-celebrate {
+        background-color: #d63384;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: transform 0.2s, background-color 0.2s;
+        box-shadow: 0 4px 10px rgba(214, 51, 132, 0.3);
+        width: 200px;
+    }
 
-        .btn-celebrate:active {
-            transform: scale(0.95);
-        }
+    /* New "Back" Button Style */
+    .btn-back {
+        background-color: transparent;
+        color: #d63384;
+        border: 2px solid #d63384;
+        padding: 8px 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none; /* In case you use an <a> tag */
+        width: 150px;
+    }
 
+    .btn-back:hover {
+        background-color: rgba(214, 51, 132, 0.1);
+        transform: scale(1.05);
+    }
         /* Confetti Animation */
         .confetti {
             position: fixed; /* Fixed so it stays relative to screen */
@@ -97,14 +115,21 @@
 <body>
 
     <div class="container">
-        <h1>YAY! She Said Yes! ❤️</h1>
-        <img src="valentineP.jpeg" alt="Happy Dance">
-        <p>
-            You just made me the happiest person alive! <br>
-            I love you so much! Happy Valentine's Day! 💋
-        </p>
+    <h1>YAY! She Said Yes! ❤️</h1>
+    <img src="valentineP.jpeg" alt="Happy Dance">
+    <p>
+        You just made me the happiest person alive! <br>
+        I love you so much! Happy Valentine's Day! 💋
+    </p>
+    
+    <div class="button-group">
         <button class="btn-celebrate" onclick="createConfetti()">Celebrate Again! 🎉</button>
+        
+        <button class="btn-back" onclick="window.location.href='index.html'">
+            ← Back to Start
+        </button>
     </div>
+</div>
 
     <script>
         function createConfetti() {
