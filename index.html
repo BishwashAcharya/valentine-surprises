@@ -3,137 +3,489 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yay! ❤️</title>
+    <title>Valentine's Week For You</title>
     <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* --- General Styling --- */
         body {
             margin: 0;
-            padding: 20px 0;
+            padding: 0;
             background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
             font-family: 'Nunito', sans-serif;
+            color: #5a5a5a;
+            overflow-x: hidden;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-            overflow-x: hidden; /* Prevents side-scrolling from confetti */
         }
 
-        h1 {
+        h1, h2 {
             font-family: 'Sacramento', cursive;
             color: #d63384;
-            font-size: clamp(2.5rem, 8vw, 4rem);
-            margin: 0;
         }
 
+        /* --- Floating Hearts Background Animation --- */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -100px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 182, 193, 0.6);
+            transform: rotate(45deg);
+            animation: floatUp 10s linear infinite;
+        }
+
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before { top: -10px; left: 0; }
+        .heart::after { top: 0; left: -10px; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(45deg); opacity: 0; }
+        }
+
+        /* --- Main Container --- */
         .container {
+            max-width: 800px;
+            width: 90%;
             background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 600px;
-            width: 90%;
+            padding: 30px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            text-align: center;
             z-index: 10;
-            box-sizing: border-box;
         }
 
-        img {
-            max-width: 100%;
-            max-height: 55vh; /* Keep it visible without scrolling on most screens */
-            object-fit: contain;
-            border-radius: 15px;
-            margin: 15px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        h1 { font-size: 3.5rem; margin-bottom: 10px; }
+        .subtitle { font-size: 1.2rem; color: #888; margin-bottom: 30px; }
+
+        /* --- Navigation Tabs --- */
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
         }
 
-        p {
-            font-size: 1.2rem;
-            color: #5a5a5a;
-            margin-bottom: 20px;
-        }
-
-        /* The Celebration Button */
-        .btn-celebrate {
-            background-color: #d63384;
-            color: white;
+        .tab-btn {
+            background: #ffe4e1;
             border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 50px;
+            padding: 10px 20px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-            box-shadow: 0 4px 10px rgba(214, 51, 132, 0.3);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            color: #d63384;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
 
-        .btn-celebrate:hover {
-            background-color: #b02a6b;
-            transform: scale(1.05);
+        .tab-btn:hover { transform: scale(1.05); background: #ffccd5; }
+        .tab-btn.active { background: #d63384; color: white; box-shadow: 0 4px 15px rgba(214, 51, 132, 0.4); }
+
+        /* --- Proposal Buttons --- */
+       .btn-container {
+    display: flex;             /* This forces side-by-side layout */
+    justify-content: center;   /* Centers them in the middle */
+    align-items: center;       /* Aligns them vertically */
+    gap: 20px;                 /* Adds space between Yes and No */
+    position: relative;        /* Necessary for the No button to move inside here later */
+    width: 100%;               /* Full width to prevent squishing */
+    min-height: 80px;          /* Reserve height */
+}
+
+.proposal-btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    white-space: nowrap;       /* Prevents text from wrapping */
+}
+
+#yesBtn {
+    background-color: #d63384;
+    color: white;
+    box-shadow: 0 5px 15px rgba(214, 51, 132, 0.4);
+    z-index: 100;              /* Ensures Yes is always on top */
+}
+
+#noBtn {
+    background-color: #e2e2e2;
+    color: #333;
+    position: relative;        /* Starts in normal flow (Next to Yes) */
+    z-index: 1;
+}
+
+        /* --- Content Sections --- */
+        .content-section {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease-in-out;
         }
 
-        .btn-celebrate:active {
-            transform: scale(0.95);
+        .content-section.active { display: block; }
+
+        .card {
+            background: #fff0f3;
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px dashed #ffb3c1;
         }
 
-        /* Confetti Animation */
-        .confetti {
-            position: fixed; /* Fixed so it stays relative to screen */
-            width: 10px;
-            height: 10px;
-            top: -10px;
-            z-index: 999;
-            pointer-events: none; /* User can click through confetti */
-            animation: fall linear forwards;
+        .card img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            margin: 20px 0;
+            object-fit: cover;
         }
 
-        @keyframes fall {
-            to { 
-                transform: translateY(110vh) rotate(720deg); 
-            }
+        .message { font-size: 1.1rem; line-height: 1.6; }
+        .date-badge {
+            background: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #d63384;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
     </style>
 </head>
 <body>
 
+    <div class="hearts-bg" id="heartsContainer"></div>
+
     <div class="container">
-        <h1>YAY! She Said Yes! ❤️</h1>
-        <img src="valentineP.jpeg" alt="Happy Dance">
-        <p>
-            You just made me the happiest person alive! <br>
-            I love you so much! Happy Valentine's Day! 💋
+        <h1>Valentine's Week</h1>
+        <p class="subtitle">A special journey just for you ❤️</p>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="openDay('rose')">Rose</button>
+            <button class="tab-btn" onclick="openDay('propose')">Propose</button>
+            <button class="tab-btn" onclick="openDay('chocolate')">Chocolate</button>
+            <button class="tab-btn" onclick="openDay('teddy')">Teddy</button>
+            <button class="tab-btn" onclick="openDay('promise')">Promise</button>
+            <button class="tab-btn" onclick="openDay('hug')">Hug</button>
+            <button class="tab-btn" onclick="openDay('kiss')">Kiss</button>
+            <button class="tab-btn" onclick="openDay('valentine')">Valentine's</button>
+        </div>
+
+        <div id="rose" class="content-section active">
+            <div class="card">
+                <span class="date-badge">Feb 7th</span>
+                <h2>Happy Rose Day 🌹</h2>
+                <img src="flower.jpg" alt="Rose">
+                <p class="message">
+                    Just like this rose, you make my life beautiful and fragrant with your love. <br>
+                    I love you more than words can say!
+                </p>
+            </div>
+        </div>
+
+        <div id="propose" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 8th</span>
+                <h2>Propose Day 💍</h2>
+                <img src="purpose.jpg" alt="Propose">
+                <p class="message">
+                    Happy Purpose Day! After 11 years, my purpose is still exactly what it was on day one: to love you better every single day. You are my past, my present, and my entire future.
+                </p>
+            </div>
+        </div>
+
+        <div id="chocolate" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 9th</span>
+                <h2>Chocolate Day 🍫</h2>
+                <img src="chocolate.jpg" alt="Chocolate">
+                <p class="message">
+                    Life is like a chocolate box, and you are my favorite flavor.<br>
+                    Here is some virtual sweetness for my sweetheart!
+                </p>
+            </div>
+        </div>
+
+        <div id="teddy" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 10th</span>
+                <h2>Teddy Day 🧸</h2>
+                <img src="teddy.jpeg" alt="Teddy">
+                <p class="message">
+                    Even though we’re miles apart, you’re always tucked right here in my heart.<br>
+                    Happy Teddy Day to my favorite person to snuggle with.
+                </p>
+            </div>
+        </div>
+
+        <div id="promise" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 11th</span>
+                <h2>Promise Day 🤝</h2>
+                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80" alt="Promise">
+                <p class="message">
+                    I promise to laugh with you, cry with you, and stand by your side.<br>
+                    Through all the ups and downs, I promise to be yours.
+                </p>
+            </div>
+        </div>
+
+        <div id="hug" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 12th</span>
+                <h2>Hug Day 🤗</h2>
+                <img src="hug.png" alt="Hug">
+                <p class="message">
+                    Sometimes words aren't enough, and a hug says it all.<br>
+                    Sending you the tightest, warmest hug today!
+                </p>
+            </div>
+        </div>
+
+        <div id="kiss" class="content-section">
+            <div class="card">
+                <span class="date-badge">Feb 13th</span>
+                <h2>Kiss Day 💋</h2>
+                <img src="kiss.png" alt="Kiss">
+                <p class="message">
+                    Sending a little extra love and a big kiss your way today. Wish I was there!<br>
+                    Here's a million virtual kisses for you.
+                </p>
+            </div>
+        </div>
+
+        <div id="valentine" class="content-section">
+    <div class="card" style="background: #fff5f8; border: 2px solid #d63384;">
+        <span class="date-badge">Feb 14th</span>
+        <h2>Will You Be My Valentine? 🌹</h2>
+        
+        <img src="valentineq.jpg" alt="Please be mine">
+        
+        <p class="message">
+            <b>To my favorite person,</b><br>
+            I can't imagine this day without you. Will you make me the happiest person and be my Valentine?
         </p>
-        <button class="btn-celebrate" onclick="createConfetti()">Celebrate Again! 🎉</button>
+
+        <div class="btn-container">
+           <div> <button id="yesBtn" class="proposal-btn" onclick="acceptProposal()">YES! ❤️</button></div>
+            <div><button id="noBtn" class="proposal-btn" onmouseover="dodgeNo()" onclick="dodgeNo()">No 💔</button></div>
+        </div>
+    </div>
+</div>
+
     </div>
 
-    <script>
-        function createConfetti() {
-            const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff'];
-            
-            for (let i = 0; i < 75; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('confetti');
-                
-                // Randomize appearance
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Randomize animation
-                const duration = Math.random() * 3 + 2;
-                confetti.style.animationDuration = duration + 's';
-                confetti.style.opacity = Math.random();
-                
-                document.body.appendChild(confetti);
+   <script>
+    // ==========================================
+    //       ⬇️ EDIT YOUR MESSAGES HERE ⬇️
+    // ==========================================
+    
+    const valentineConfig = {
+        'rose': {
+            date: 7, 
+            lockedMsg: "Hold on! I haven't bought the flowers yet! 🌹 Wait for Feb 7th."
+        },
+        'propose': {
+            date: 8, 
+            lockedMsg: "Shhh! 🤫 I have a big question to ask, but not yet! Wait for Feb 8th."
+        },
+        'chocolate': {
+            date: 9, 
+            lockedMsg: "No snacking early! 🍫 The sweetness arrives on Feb 9th."
+        },
+        'teddy': {
+            date: 10, 
+            lockedMsg: "The cuddles are loading... 🧸 Come back on Feb 10th!"
+        },
+        'promise': {
+            date: 11, 
+            lockedMsg: "I have a promise to make, but you have to wait! 🤞 Feb 11th."
+        },
+        'hug': {
+            date: 12, 
+            lockedMsg: "My arms are saving up energy for a BIG hug on Feb 12th! 🤗"
+        },
+        'kiss': {
+            date: 13, 
+            lockedMsg: "Save those lips! 💋 Kisses unlock on Feb 13th."
+        },
+        'valentine': {
+            date: 13, 
+            lockedMsg: "The grand finale isn't ready yet! ❤️ See you on Valentine's Day."
+        }
+    };
 
-                // Remove from DOM after animation finishes to save memory
-                setTimeout(() => {
-                    confetti.remove();
-                }, duration * 1000);
-            }
+    // ==========================================
+    //    ⛔️ DON'T TOUCH CODE BELOW THIS LINE ⛔️
+    // ==========================================
+
+    function openDay(dayName) {
+        const today = new Date();
+        const currentMonth = today.getMonth(); // 0 = Jan, 1 = Feb
+        const currentDay = today.getDate();
+        
+        // specific configuration for the clicked day
+        const config = valentineConfig[dayName];
+
+        // LOGIC: 
+        // If it is NOT February yet (Month is 0), OR
+        // It IS February, but today's date is less than the unlock date...
+        if (currentMonth < 1 || (currentMonth === 1 && currentDay < config.date)) {
+            
+            // Show the custom locked message
+            alert(config.lockedMsg);
+            return; // Stop here, don't open the tab
         }
 
-        // Run once on load
-        window.onload = createConfetti;
-    </script>
+        // --- If logic passes, Unlock the Content ---
+        
+        // Hide all content sections
+        const contents = document.getElementsByClassName('content-section');
+        for (let i = 0; i < contents.length; i++) {
+            contents[i].classList.remove('active');
+        }
+
+        // Remove active class from all buttons
+        const buttons = document.getElementsByClassName('tab-btn');
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('active');
+        }
+
+        // Show the specific day content
+        document.getElementById(dayName).classList.add('active');
+        
+        // Highlight the button
+        const clickedBtn = document.querySelector(`button[onclick="openDay('${dayName}')"]`);
+        if(clickedBtn) clickedBtn.classList.add('active');
+    }
+
+    // --- Visual Logic: Gray out future buttons ---
+    function updateButtonStyles() {
+        const today = new Date();
+        const currentMonth = today.getMonth();
+        const currentDay = today.getDate();
+        
+        for (const [dayName, config] of Object.entries(valentineConfig)) {
+            const btn = document.querySelector(`button[onclick="openDay('${dayName}')"]`);
+            if (btn) {
+                // If locked
+                if (currentMonth < 1 || (currentMonth === 1 && currentDay < config.date)) {
+                    btn.style.opacity = "0.6";
+                    btn.innerText = "🔒 " + btn.innerText; // Adds lock icon
+                }
+            }
+        }
+    }
+
+    // --- Generate Floating Hearts ---
+    function createHearts() {
+        const container = document.getElementById('heartsContainer');
+        // Check if container exists to avoid errors
+        if (!container) return;
+
+        const heartCount = 20; 
+        for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 7 + 's'; 
+            heart.style.opacity = Math.random();
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(heart);
+        }
+    }
+
+       // --- Proposal Logic ---
+        function dodgeNo() {
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+
+        // 1. Make the Yes button BIGGER
+        // We use computed style to get the current size and add to it
+        let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+        let currentWidth = parseFloat(window.getComputedStyle(yesBtn).width);
+        
+        yesBtn.style.fontSize = (currentSize * 1.2) + "px"; 
+        yesBtn.style.width = (currentWidth * 1.2) + "px";
+
+        // 2. Move the No button
+        // CRITICAL: We switch to absolute position so it can fly around
+        noBtn.style.position = "absolute"; 
+        
+        // Generate random coordinates
+        // We generate a number between -150 and 150
+        const randomX = Math.floor(Math.random() * 300) - 150;
+        const randomY = Math.floor(Math.random() * 300) - 150;
+
+        // Apply the move
+        noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    function acceptProposal() {
+        window.location.href = "yes.html";
+    }
+
+    function acceptProposal() {
+        // Redirect to the new page
+        window.location.href = "yes.html";
+    }
+
+    // Initialize on load
+    window.onload = function() {
+        createHearts();
+        updateButtonStyles();
+    };
+</script>
 </body>
+
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
